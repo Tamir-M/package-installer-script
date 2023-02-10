@@ -5,6 +5,7 @@ import os
 from util.helper import clear_console
 
 PACKAGE_LOCK_FILE = 'package-lock.json'
+PACKAGE_JSON_FILE = 'package.json'
 INPUT_FOLDER = './input/'
 OUTPUT_FOLDER = './output/'
 
@@ -18,6 +19,10 @@ def make_input_output_folders():
 
 def has_package_lock():
     return os.path.isfile(INPUT_FOLDER + PACKAGE_LOCK_FILE)
+
+
+def has_package_json():
+    return os.path.isfile(INPUT_FOLDER + PACKAGE_JSON_FILE)
 
 
 def package_lock_parse():
@@ -38,3 +43,7 @@ def package_lock_parse():
         file_name = resolved.split('/')[-1]
         # download the file.
         urlretrieve(resolved, OUTPUT_FOLDER + file_name)
+
+
+def package_json_parse():
+    os.system('cd ' + INPUT_FOLDER + ' && npm i --package-lock-only')
