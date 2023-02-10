@@ -1,10 +1,18 @@
 import os
 import json
 from urllib.request import urlretrieve
+import os
 
 PACKAGE_LOCK_FILE = 'package-lock.json'
 INPUT_FOLDER = './input/'
 OUTPUT_FOLDER = './output/'
+
+
+def make_input_output_folders():
+    if not os.path.exists(INPUT_FOLDER):
+        os.makedirs(INPUT_FOLDER)
+    if not os.path.exists(OUTPUT_FOLDER):
+        os.makedirs(OUTPUT_FOLDER)
 
 
 def has_package_lock():
