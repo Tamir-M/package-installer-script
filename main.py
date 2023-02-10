@@ -1,9 +1,4 @@
-def print_hi(name):
-    print(f'Hi, {name}')
-    while(True):
-        pass
-
+import util.menu as util
 
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
+    util.menu()
