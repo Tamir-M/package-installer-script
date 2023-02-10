@@ -47,3 +47,9 @@ def package_lock_parse():
 
 def package_json_parse():
     os.system('cd ' + INPUT_FOLDER + ' && npm i --package-lock-only')
+
+
+def download_package(package):
+    os.system('cd ' + INPUT_FOLDER + ' && npm init -y && npm i ' + package + ' --package-lock-only')
+    if has_package_json():
+        os.remove(INPUT_FOLDER + PACKAGE_JSON_FILE)
