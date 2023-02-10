@@ -2,6 +2,7 @@ import os
 import json
 from urllib.request import urlretrieve
 import os
+from util.helper import clear_console
 
 PACKAGE_LOCK_FILE = 'package-lock.json'
 INPUT_FOLDER = './input/'
@@ -27,7 +28,9 @@ def package_lock_parse():
     # get the dependencies from the package_lock.
     dependencies = package_lock_data['dependencies']
     # loop through each dependency.
-    for package_name in dependencies:
+    for index, package_name in enumerate(dependencies):
+        clear_console()
+        print('Files downloaded: ' + str(index) + '/' + str(len(dependencies)))
         # get the package.
         package = dependencies[package_name]
         # get the resolved (url) and filename.
