@@ -5,7 +5,7 @@ def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
-def correct_input(message, options):
+def menu_input(message, options):
     first_time = True
     user_input = ''
     while not (user_input.isnumeric() and
