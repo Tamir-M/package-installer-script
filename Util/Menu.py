@@ -31,3 +31,12 @@ def menu():
     while True:
         user_choice = correct_input('Welcome to Package Installer',
                                     ['Download', 'Upload', 'Exit'])
+
+        if user_choice is 'Download':
+            pass
+
+        if user_choice is 'Upload':
+            pass
+
+        if user_choice is 'Exit':
+            exit(0)
