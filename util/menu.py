@@ -1,9 +1,5 @@
-import os
 import util.download as download
-
-
-def clear_console():
-    os.system('cls' if os.name == 'nt' else 'clear')
+from util.helper import clear_console
 
 
 def correct_input(message, options):
@@ -22,7 +18,7 @@ def correct_input(message, options):
         [print(str(index + 1) + '. ' + option)
          for index, option in enumerate(options)]
 
-        user_input = input("please select one of the above:")
+        user_input = input("please select one of the above: ")
 
     clear_console()
     return options[int(user_input) - 1]
