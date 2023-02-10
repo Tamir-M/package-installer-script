@@ -1,4 +1,5 @@
 import os
+import util.download as download
 
 
 def clear_console():
@@ -33,7 +34,7 @@ def menu():
                                     ['Download', 'Upload', 'Exit'])
 
         if user_choice is 'Download':
-            pass
+            download.download()
 
         if user_choice is 'Upload':
             pass
