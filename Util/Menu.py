@@ -1,9 +1,16 @@
+import os
+
+
+def clear_console():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+
 def correct_input(message, options):
     first_time = True
     user_input = ''
     while not (user_input.isnumeric() and
                0 < int(user_input) < (len(options)) + 1):
-
+        clear_console()
         if not first_time:
             print('incorrect input!')
         else:
@@ -16,11 +23,11 @@ def correct_input(message, options):
 
         user_input = input("please select one of the above:")
 
+    clear_console()
     return options[int(user_input) - 1]
 
 
 def menu():
     while True:
-        result = correct_input('Welcome to Package Installer',
-                               ['Download', 'Upload', 'Exit'])
-        print(result)
+        user_choice = correct_input('Welcome to Package Installer',
+                                    ['Download', 'Upload', 'Exit'])
