@@ -1,15 +1,21 @@
-import util.files as files
+from util.files import (
+    download_package,
+    has_package_json,
+    has_package_lock,
+    make_input_output_folders,
+    package_json_parse,
+    package_lock_parse,
+)
 
 
 def download():
-    files.make_input_output_folders()
+    make_input_output_folders()
 
-    if files.has_package_json():
-        files.package_json_parse()
+    if has_package_json():
+        package_json_parse()
 
-    if not files.has_package_lock():
-        package = input('Enter a package name: ')
-        files.download_package(package)
+    if not has_package_lock():
+        download_package(input("Enter a package name: "))
 
-    if files.has_package_lock():
-        files.package_lock_parse()
+    if has_package_lock():
+        package_lock_parse()
