@@ -9,11 +9,11 @@ def menu():
         user_choice = menu_input('Welcome to Package Installer',
                                  ['Download', 'Upload', 'Exit'])
 
-        if user_choice is 'Download':
+        if user_choice == 'Download':
             download.download()
 
-        if user_choice is 'Upload':
+        if user_choice == 'Upload':
             pass
 
-        if user_choice is 'Exit':
+        if user_choice == 'Exit':
             exit(0)

@@ -2,7 +2,7 @@ import os
 import json
 from urllib.request import urlretrieve
 import os
-from util.helper import clear_console
+from util.helper import clear_console, is_windows_machine
 
 PACKAGE_LOCK_FILE = 'package-lock.json'
 PACKAGE_JSON_FILE = 'package.json'
@@ -31,9 +31,14 @@ def package_lock_parse():
     # parse the json.
     package_lock_data = json.loads(package_lock.read())
     # get the dependencies from the package_lock.
-    dependencies = package_lock_data['dependencies']
+    if is_windows_machine():
+        dependencies = package_lock_data['dependencies']
+    else:
+        dependencies = package_lock_data['packages']
     # loop through each dependency.
     for index, package_name in enumerate(dependencies):
+        if package_name == '':
+            continue
         clear_console()
         print('Files downloaded: ' + str(index) + '/' + str(len(dependencies)))
         # get the package.
@@ -53,3 +58,10 @@ def download_package(package):
     os.system('cd ' + INPUT_FOLDER + ' && npm init -y && npm i ' + package + ' --package-lock-only')
     if has_package_json():
         os.remove(INPUT_FOLDER + PACKAGE_JSON_FILE)
+
+
+def go_to_output():
+    if is_windows_machine():
+        os.system('cd ' + OUTPUT_FOLDER + ' Explorer .')
+    else:
+        os.system('xdg-open ' + OUTPUT_FOLDER)
