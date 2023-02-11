@@ -1,7 +1,8 @@
-import os
 import json
-from urllib.request import urlretrieve
 import os
+import subprocess
+from urllib.request import urlretrieve
+
 from util.helper import clear_console
 
 PACKAGE_LOCK_FILE = 'package-lock.json'
