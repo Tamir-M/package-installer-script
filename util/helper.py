@@ -1,8 +1,12 @@
 import os
 
 
+def is_windows_machine():
+    return os.name == 'nt'
+
+
 def clear_console():
-    os.system('cls' if os.name == 'nt' else 'clear')
+    os.system('cls' if is_windows_machine() else 'clear')
 
 
 def menu_input(message, options):
@@ -25,3 +29,8 @@ def menu_input(message, options):
 
     clear_console()
     return options[int(user_input) - 1]
+
+
+def confirm(message):
+    user_input = input(message + ' (y): ').lower()
+    return user_input == '' or user_input == 'y' or user_input == 'yes'
