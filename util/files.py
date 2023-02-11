@@ -31,7 +31,10 @@ def package_lock_parse():
     # parse the json.
     package_lock_data = json.loads(package_lock.read())
     # get the dependencies from the package_lock.
-    dependencies = package_lock_data['dependencies']
+    if is_windows_machine():
+        dependencies = package_lock_data['dependencies']
+    else:
+        dependencies = package_lock_data['packages']
     # loop through each dependency.
     for index, package_name in enumerate(dependencies):
         clear_console()
