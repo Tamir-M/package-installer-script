@@ -37,6 +37,8 @@ def package_lock_parse():
         dependencies = package_lock_data['packages']
     # loop through each dependency.
     for index, package_name in enumerate(dependencies):
+        if package_name == '':
+            continue
         clear_console()
         print('Files downloaded: ' + str(index) + '/' + str(len(dependencies)))
         # get the package.
