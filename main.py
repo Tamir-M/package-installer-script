@@ -1,4 +1,13 @@
-import util.menu as util
+from util.menu import menu
 
-if __name__ == '__main__':
-    util.menu()
+
+def main() -> None:
+    """
+    Main function of the program.
+    :return: None
+    """
+    menu()
+
+
+if __name__ == "__main__":
+    main()
