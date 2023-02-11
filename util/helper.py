@@ -1,8 +1,12 @@
 import os
 
 
+def is_windows_machine():
+    return os.name == 'nt'
+
+
 def clear_console():
-    os.system('cls' if os.name == 'nt' else 'clear')
+    os.system('cls' if is_windows_machine() else 'clear')
 
 
 def menu_input(message, options):
