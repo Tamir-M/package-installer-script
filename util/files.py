@@ -2,7 +2,7 @@ import os
 import json
 from urllib.request import urlretrieve
 import os
-from util.helper import clear_console
+from util.helper import clear_console, is_windows_machine
 
 PACKAGE_LOCK_FILE = 'package-lock.json'
 PACKAGE_JSON_FILE = 'package.json'
@@ -56,4 +56,4 @@ def download_package(package):
 
 
 def go_to_output():
-    os.system('cd ' + OUTPUT_FOLDER + ' && Explorer .')
+    os.system('cd ' + OUTPUT_FOLDER + ' && ' + 'Explorer .' if is_windows_machine() else 'xdg-open .')
