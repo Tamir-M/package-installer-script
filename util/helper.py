@@ -25,3 +25,8 @@ def menu_input(message, options):
 
     clear_console()
     return options[int(user_input) - 1]
+
+
+def confirm(message):
+    user_input = input(message + ' (y): ').lower()
+    return user_input == '' or user_input == 'y' or user_input == 'yes'

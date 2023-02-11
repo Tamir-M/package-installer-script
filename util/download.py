@@ -1,4 +1,5 @@
 import util.files as files
+from util.helper import confirm
 
 
 def download():
@@ -12,4 +13,5 @@ def download():
     if files.has_package_lock():
         files.package_lock_parse()
 
-    files.go_to_output()
+    if confirm('Do you wish to go to the output folder'):
+        files.go_to_output()
