@@ -1,13 +1,17 @@
 import os
 
 
+def is_windows_machine():
+    return os.name == "nt"
+
+
 def clear_console() -> None:
     """
     Clears the console.
     :return: None
     """
 
-    os.system("cls" if os.name == "nt" else "clear")
+    os.system("cls" if is_windows_machine() else "clear")
 
 
 def menu_input(message, options) -> str:
@@ -32,3 +36,8 @@ def menu_input(message, options) -> str:
         user_input: str = input(f"{options_text}\n" f"Please select one of the above: ")
 
     return options[int(user_input) - 1]
+
+
+def confirm(message):
+    user_input = input(message + " (y): ").lower()
+    return user_input == "" or user_input == "y" or user_input == "yes"

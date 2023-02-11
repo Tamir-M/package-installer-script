@@ -3,7 +3,7 @@ import os
 import subprocess
 from urllib.request import urlretrieve
 
-from util.helper import clear_console
+from util.helper import clear_console, is_windows_machine
 
 PACKAGE_LOCK_FILE: str = "package-lock.json"
 PACKAGE_JSON_FILE: str = "package.json"
@@ -61,7 +61,10 @@ def package_lock_parse() -> None:
     with open(os.path.join(INPUT_FOLDER, PACKAGE_LOCK_FILE)) as package_lock:
         package_lock_data: any = json.load(package_lock)
 
-    dependencies: any = package_lock_data["dependencies"]
+    if is_windows_machine():
+        dependencies = package_lock_data["dependencies"]
+    else:
+        dependencies = package_lock_data["packages"]
 
     for index, package_name in enumerate(dependencies, 1):
         clear_console()
@@ -97,3 +100,17 @@ def download_package(package: str) -> None:
 
     if has_package_json():
         os.remove(os.path.join(INPUT_FOLDER, PACKAGE_JSON_FILE))
+
+
+def go_to_output():
+    if is_windows_machine():
+        os.system("cd " + OUTPUT_FOLDER + " Explorer .")
+    else:
+        os.system("xdg-open " + OUTPUT_FOLDER)
+
+
+def go_to_output():
+    if is_windows_machine():
+        os.system("cd " + OUTPUT_FOLDER + " Explorer .")
+    else:
+        os.system("xdg-open " + OUTPUT_FOLDER)
