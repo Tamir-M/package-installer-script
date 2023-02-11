@@ -53,3 +53,7 @@ def download_package(package):
     os.system('cd ' + INPUT_FOLDER + ' && npm init -y && npm i ' + package + ' --package-lock-only')
     if has_package_json():
         os.remove(INPUT_FOLDER + PACKAGE_JSON_FILE)
+
+
+def go_to_output():
+    os.system('cd ' + OUTPUT_FOLDER + ' && Explorer .')

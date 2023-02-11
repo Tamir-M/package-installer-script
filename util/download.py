@@ -11,3 +11,5 @@ def download():
 
     if files.has_package_lock():
         files.package_lock_parse()
+
+    files.go_to_output()
