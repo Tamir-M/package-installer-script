@@ -61,4 +61,7 @@ def download_package(package):
 
 
 def go_to_output():
-    os.system('cd ' + OUTPUT_FOLDER + ' && ' + 'Explorer .' if is_windows_machine() else 'xdg-open .')
+    if is_windows_machine():
+        os.system('cd ' + OUTPUT_FOLDER + ' Explorer .')
+    else:
+        os.system('xdg-open ' + OUTPUT_FOLDER)
