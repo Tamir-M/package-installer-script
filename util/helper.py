@@ -1,27 +1,34 @@
 import os
 
 
-def clear_console():
-    os.system('cls' if os.name == 'nt' else 'clear')
+def clear_console() -> None:
+    """
+    Clears the console.
+    :return: None
+    """
+
+    os.system("cls" if os.name == "nt" else "clear")
 
 
-def menu_input(message, options):
-    first_time = True
-    user_input = ''
-    while not (user_input.isnumeric() and
-               0 < int(user_input) < (len(options)) + 1):
+def menu_input(message, options) -> str:
+    """
+    Displays a menu with the given message and options.
+    :param message: The message to display.
+    :param options: The options to display.
+    :return: The selected option.
+    """
+
+    user_input: str = ""
+
+    while not (user_input.isdigit() and 1 <= int(user_input) <= len(options)):
         clear_console()
-        if not first_time:
-            print('incorrect input!')
-        else:
-            first_time = False
 
         print(message)
 
-        [print(str(index + 1) + '. ' + option)
-         for index, option in enumerate(options)]
+        options_text: str = "\n".join(
+            [f"{index + 1}. {option}" for index, option in enumerate(options)]
+        )
 
-        user_input = input("please select one of the above: ")
+        user_input: str = input(f"{options_text}\n" f"Please select one of the above: ")
 
-    clear_console()
     return options[int(user_input) - 1]
