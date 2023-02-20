@@ -11,7 +11,7 @@ def clear_console():
 
 def menu_input(message, options):
     first_time = True
-    user_input = ''
+    user_input = ""
     while not (user_input.isdigit() and
                1 <= int(user_input) <= (len(options))):
         clear_console()
