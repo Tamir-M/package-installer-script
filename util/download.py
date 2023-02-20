@@ -14,11 +14,11 @@ def download():
         package_json_parse()
 
     if not has_package_lock():
-        package = input('Enter a package name: ')
+        package = input("Enter a package name: ")
         download_package(package)
 
     if has_package_lock():
         package_lock_parse()
 
-    if confirm('Do you wish to go to the output folder'):
+    if confirm("Do you wish to go to the output folder"):
         go_to_output()
