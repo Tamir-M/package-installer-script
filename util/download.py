@@ -1,17 +1,24 @@
-import util.files as files
 from util.helper import confirm
+from util.files import (
+    has_package_lock,
+    has_package_json,
+    package_json_parse,
+    download_package,
+    package_lock_parse,
+    go_to_output
+)
 
 
 def download():
-    if files.has_package_json():
-        files.package_json_parse()
+    if has_package_json():
+        package_json_parse()
 
-    if not files.has_package_lock():
-        package = input('Enter a package name: ')
-        files.download_package(package)
+    if not has_package_lock():
+        package = input("Enter a package name: ")
+        download_package(package)
 
-    if files.has_package_lock():
-        files.package_lock_parse()
+    if has_package_lock():
+        package_lock_parse()
 
-    if confirm('Do you wish to go to the output folder'):
-        files.go_to_output()
+    if confirm("Do you wish to go to the output folder"):
+        go_to_output()

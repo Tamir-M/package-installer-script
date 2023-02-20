@@ -1,4 +1,9 @@
-import util.menu as util
+from util.menu import menu
 
-if __name__ == '__main__':
-    util.menu()
+
+def main():
+    menu()
+
+
+if __name__ == "__main__":
+    main()
