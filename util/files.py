@@ -1,13 +1,14 @@
-import os
 import json
-from urllib.request import urlretrieve
 import os
+import subprocess
+from urllib.request import urlretrieve
+
 from util.helper import clear_console, is_windows_machine
 
-PACKAGE_LOCK_FILE = 'package-lock.json'
-PACKAGE_JSON_FILE = 'package.json'
-INPUT_FOLDER = './input/'
-OUTPUT_FOLDER = './output/'
+PACKAGE_LOCK_FILE = "package-lock.json"
+PACKAGE_JSON_FILE = "package.json"
+INPUT_FOLDER = "./input/"
+OUTPUT_FOLDER = "./output/"
 
 
 def make_input_output_folders():
@@ -17,51 +18,57 @@ def make_input_output_folders():
         os.makedirs(OUTPUT_FOLDER)
 
 
+def has_file(folder, filename):
+    return os.path.isfile(os.path.join(folder, filename))
+
+
 def has_package_lock():
-    return os.path.isfile(INPUT_FOLDER + PACKAGE_LOCK_FILE)
+    return has_file(INPUT_FOLDER, PACKAGE_LOCK_FILE)
 
 
 def has_package_json():
-    return os.path.isfile(INPUT_FOLDER + PACKAGE_JSON_FILE)
+    return has_file(INPUT_FOLDER, PACKAGE_JSON_FILE)
 
 
 def package_lock_parse():
     # open the package_lock.json.
-    package_lock = open(INPUT_FOLDER + PACKAGE_LOCK_FILE)
-    # parse the json.
-    package_lock_data = json.loads(package_lock.read())
-    # get the dependencies from the package_lock.
+    with open(os.path.join(INPUT_FOLDER, PACKAGE_LOCK_FILE)) as package_lock:
+        package_lock_data = json.load(package_lock)
+
     if is_windows_machine():
-        dependencies = package_lock_data['dependencies']
+        dependencies = package_lock_data["dependencies"]
     else:
-        dependencies = package_lock_data['packages']
-    # loop through each dependency.
+        dependencies = package_lock_data["packages"]
+
     for index, package_name in enumerate(dependencies):
-        if package_name == '':
+        if package_name == "":
             continue
+
         clear_console()
-        print('Files downloaded: ' + str(index) + '/' + str(len(dependencies)))
-        # get the package.
+
+        print(f"Files downloaded: {str(index)}/{str(len(dependencies))}")
+
         package = dependencies[package_name]
-        # get the resolved (url) and filename.
-        resolved = package['resolved']
-        file_name = resolved.split('/')[-1]
-        # download the file.
-        urlretrieve(resolved, OUTPUT_FOLDER + file_name)
+
+        resolved = package["resolved"]
+        file_name = resolved.split("/")[-1]
+
+        urlretrieve(resolved, os.path.join(OUTPUT_FOLDER, file_name))
 
 
 def package_json_parse():
-    os.system('cd ' + INPUT_FOLDER + ' && npm i --package-lock-only')
+    subprocess.run(["npm", "i", "--package-lock-only"], cwd=INPUT_FOLDER, shell=True)
 
 
 def download_package(package):
-    os.system('cd ' + INPUT_FOLDER + ' && npm init -y && npm i ' + package + ' --package-lock-only')
+    subprocess.run(["npm", "init", "-y"], cwd=INPUT_FOLDER, shell=True)
+    subprocess.run(["npm", "i", package, "--package-lock-only"], cwd=INPUT_FOLDER, shell=True)
     if has_package_json():
-        os.remove(INPUT_FOLDER + PACKAGE_JSON_FILE)
+        os.remove(os.path.join(INPUT_FOLDER, PACKAGE_JSON_FILE))
 
 
 def go_to_output():
     if is_windows_machine():
-        os.system('cd ' + OUTPUT_FOLDER + ' Explorer .')
+        subprocess.run(["Explorer", "."], cwd=OUTPUT_FOLDER, shell=True)
     else:
-        os.system('xdg-open ' + OUTPUT_FOLDER)
+        subprocess.run(["xdg-open", OUTPUT_FOLDER], shell=True)
