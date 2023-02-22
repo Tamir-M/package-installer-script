@@ -9,7 +9,7 @@ from util.files import (
 )
 
 
-def download():
+def npm_download():
     if has_package_json():
         package_json_parse()
 
