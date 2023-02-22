@@ -1,4 +1,4 @@
-from util.download import npm_download
+from util.download import npm_download, pip_download
 from util.files import make_input_output_folders
 from util.helper import menu_input
 
@@ -30,6 +30,6 @@ def download_menu():
         if user_choice == "npm":
             npm_download()
         elif user_choice == "pip":
-            pass
+            pip_download()
         elif user_choice == "Back":
             break
