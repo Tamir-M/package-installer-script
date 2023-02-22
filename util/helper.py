@@ -1,5 +1,6 @@
 import json
 import os
+import urllib
 from urllib.request import Request, urlopen
 
 
@@ -39,9 +40,12 @@ def confirm(message):
 
 
 def http_request(url):
-    request = Request(url, headers={"Accept": "application/json"})
+    try:
+        request = Request(url, headers={"Accept": "application/json"})
 
-    with urlopen(request) as response:
-        if response.status != 200:
-            return
-        return json.loads(response.read().decode())
+        with urlopen(request) as response:
+            return json.loads(response.read().decode())
+
+    except urllib.error.HTTPError as error:
+        print(error)
+        return None

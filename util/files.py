@@ -92,6 +92,9 @@ def download_pip_package(package):
     url = f"https://pypi.org/pypi/{package}/json"
 
     response_body = http_request(url)
+    if not response_body:
+        return
+
     releases = list(reversed(list(response_body["releases"])))
 
     version = latest_stable_release(releases)
