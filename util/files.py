@@ -1,9 +1,10 @@
 import json
 import os
+import re
 import subprocess
 from urllib.request import urlretrieve
 
-from util.helper import clear_console, is_windows_machine
+from util.helper import clear_console, is_windows_machine, http_request
 
 PACKAGE_LOCK_FILE = "package-lock.json"
 PACKAGE_JSON_FILE = "package.json"
@@ -53,14 +54,14 @@ def package_lock_parse():
         resolved = package["resolved"]
         file_name = resolved.split("/")[-1]
 
-        urlretrieve(resolved, os.path.join(OUTPUT_FOLDER, file_name))
+        retrieve_to_output(resolved, file_name)
 
 
 def package_json_parse():
     subprocess.run(["npm", "i", "--package-lock-only"], cwd=INPUT_FOLDER, shell=True)
 
 
-def download_package(package):
+def download_npm_package(package):
     subprocess.run(["npm", "init", "-y"], cwd=INPUT_FOLDER, shell=True)
     subprocess.run(["npm", "i", package, "--package-lock-only"], cwd=INPUT_FOLDER, shell=True)
     if has_package_json():
@@ -72,3 +73,38 @@ def go_to_output():
         subprocess.run(["Explorer", "."], cwd=OUTPUT_FOLDER, shell=True)
     else:
         subprocess.run(["xdg-open", OUTPUT_FOLDER], shell=True)
+
+
+def retrieve_to_output(url, filename):
+    urlretrieve(url, os.path.join(OUTPUT_FOLDER, filename))
+
+
+def find_distribution(response_body, version):
+    all_version_info = response_body["releases"][version]
+
+    # In case Source Distribution Exists
+    search_value = "sdist"
+
+    for version_info in all_version_info:
+        if search_value in version_info["packagetype"]:
+            return version_info
+
+    # TODO Add built distributions selection menu for the following operating systems (In case it exists) :
+    #  Windows64,Windows32,MacOS,Linux X86-64, Linux i686
+
+
+def download_pip_package(package):
+    url = f"https://pypi.org/pypi/{package}/json"
+
+    response_body = http_request(url)
+    if not response_body:
+        return
+
+    version = response_body["info"]["version"]
+
+    version_info = find_distribution(response_body, version)
+    download_link = version_info["url"]
+    download_name = version_info["filename"]
+
+    retrieve_to_output(download_link, download_name)
+    print("Download successful!")

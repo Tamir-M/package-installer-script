@@ -1,4 +1,7 @@
+import json
 import os
+import urllib
+from urllib.request import Request, urlopen
 
 
 def is_windows_machine():
@@ -34,3 +37,15 @@ def menu_input(message, options):
 def confirm(message):
     user_input = input(f"{message} (y): ").lower()
     return user_input == "" or user_input == "y" or user_input == "yes"
+
+
+def http_request(url):
+    try:
+        request = Request(url, headers={"Accept": "application/json"})
+
+        with urlopen(request) as response:
+            return json.loads(response.read().decode())
+
+    except urllib.error.HTTPError as error:
+        print(error)
+        return None
