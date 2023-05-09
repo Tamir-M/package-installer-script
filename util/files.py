@@ -92,6 +92,25 @@ def find_distribution(response_body, version):
     # TODO Add built distributions selection menu for the following operating systems (In case it exists) :
     #  Windows64,Windows32,MacOS,Linux X86-64, Linux i686
 
+def download_package_dependencies(package_name):
+    import pkg_resources, sys
+
+    python_version = f'{sys.version_info.major}.{sys.version_info.minor}'
+
+    dist = pkg_resources.get_distribution(package_name)
+
+    for dependency in dist.requires():
+        dependency = dependency.unsafe_name
+        if ';' in dependency:
+            dependency = dependency[0: dependency.find(';')]
+      
+        subprocess.run(f'py -{python_version} -m pip download --no-binary=:all: --no-deps -d ./output {dependency}')
+        if dependency == 'numpy':
+            subprocess.run(f'py -{python_version} -m pip download --no-binary=:all: --no-deps --no-build-isolation -d ./output {dependency}')
+        download_package_dependencies(dependency)
+
+
+
 
 def download_pip_package(package):
     url = f"https://pypi.org/pypi/{package}/json"
@@ -107,4 +126,7 @@ def download_pip_package(package):
     download_name = version_info["filename"]
 
     retrieve_to_output(download_link, download_name)
+
+    download_package_dependencies(package)
+
     print("Download successful!")

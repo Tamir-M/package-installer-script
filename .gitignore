@@ -3,3 +3,4 @@ build
 main.spec
 /input
 /output
+*.pyc
