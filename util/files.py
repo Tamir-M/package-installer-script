@@ -79,32 +79,6 @@ def retrieve_to_output(url, filename):
     urlretrieve(url, os.path.join(OUTPUT_FOLDER, filename))
 
 
-def find_distribution(response_body, version):
-    all_version_info = response_body["releases"][version]
-
-    # In case Source Distribution Exists
-    search_value = "sdist"
-
-    for version_info in all_version_info:
-        if search_value in version_info["packagetype"]:
-            return version_info
-
-    # TODO Add built distributions selection menu for the following operating systems (In case it exists) :
-    #  Windows64,Windows32,MacOS,Linux X86-64, Linux i686
-
-
 def download_pip_package(package):
-    url = f"https://pypi.org/pypi/{package}/json"
-
-    response_body = http_request(url)
-    if not response_body:
-        return
-
-    version = response_body["info"]["version"]
-
-    version_info = find_distribution(response_body, version)
-    download_link = version_info["url"]
-    download_name = version_info["filename"]
-
-    retrieve_to_output(download_link, download_name)
+    subprocess.run(['pip', 'download', '--no-binary', ':all:', '--no-build-isolation', '-d', OUTPUT_FOLDER, package])
     print("Download successful!")
